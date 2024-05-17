@@ -1,18 +1,29 @@
 package pl.edu.pjatk.trainmate;
 
+import static pl.edu.pjatk.trainmate.utils.Const.PREFS_NAME;
+import static pl.edu.pjatk.trainmate.utils.Const.PREF_UNAME;
+import static pl.edu.pjatk.trainmate.utils.Const.REFRESH_ACTIVE;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.widget.Button;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+
 import pl.edu.pjatk.trainmate.databinding.ActivityMainBinding;
+import pl.edu.pjatk.trainmate.utils.Const;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,8 +43,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         btnLogout = findViewById(R.id.btnLogout);
-
         btnLogout.setOnClickListener(v -> logout());
+
+        setNameSurname();
 
         setSupportActionBar(binding.appBarMain.toolbar);
         binding.appBarMain.fab.setOnClickListener(view ->
@@ -42,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
                 .setAnchorView(R.id.fab).show());
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
             R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
             .setOpenableLayout(drawer)
@@ -53,10 +63,20 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
+    private void setNameSurname() {
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME,
+            Context.MODE_PRIVATE);
+        TextView nameSurnameTextView = findViewById(R.id.nameSurname);
+        nameSurnameTextView.setText(settings.getString(PREF_UNAME, Const.defaultUnameValue));
+    }
+
     private void logout() {
         TokenService service = RetrofitClient.getRetrofitInstance().create(TokenService.class);
 
-        Call<AccessToken> call = service.logout("train-mate", Constants.REFRESH_TOKEN);
+        Call<AccessToken> call = service.logout("train-mate", Const.REFRESH_TOKEN);
+        SharedPreferences settings = getSharedPreferences(Const.PREFS_NAME,
+            Context.MODE_PRIVATE);
+        settings.edit().putBoolean(REFRESH_ACTIVE, false).commit();
         call.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<AccessToken> call, Response<AccessToken> response) {
