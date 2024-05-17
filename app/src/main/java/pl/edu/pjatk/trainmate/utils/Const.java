@@ -18,4 +18,5 @@ public class Const {
     public static final String TOKEN_REFRESH_GRANT_TYPE = "refresh_token";
     public static final String REFRESH_TAG = "REFRESH TOKEN";
     public static final String REFRESH_TOKEN_FAIL = "Token refresh malfunction";
+    public static final String LOGIN_FAIL_ANNOUNCEMENT = "Incorrect login or password";
 }
