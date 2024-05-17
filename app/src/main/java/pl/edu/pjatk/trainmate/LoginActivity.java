@@ -1,5 +1,8 @@
 package pl.edu.pjatk.trainmate;
 
+import static pl.edu.pjatk.trainmate.utils.Const.CLIENT_ID;
+import static pl.edu.pjatk.trainmate.utils.Const.REFRESH_ACTIVE;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,7 +10,9 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import pl.edu.pjatk.trainmate.utils.Const;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = etPassword.getText().toString();
         String username = etUsername.getText().toString();
 
-        Call<AccessToken> call = service.getAccessToken("train-mate", "password", "openid", username, password);
+        Call<AccessToken> call = service.getAccessToken(CLIENT_ID, "password", "openid", username, password);
         call.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<AccessToken> call, Response<AccessToken> response) {
@@ -51,7 +56,11 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString(Const.PREF_PASSWORD, password);
                     editor.putString(Const.PREF_ACCESS_TOKEN, response.body().getAccessToken());
                     editor.putString(Const.PREF_REFRESH_TOKEN, response.body().getRefreshToken());
+                    editor.putBoolean(REFRESH_ACTIVE, true);
                     editor.commit();
+
+                    Intent serviceIntent = new Intent(LoginActivity.this, TokenRefreshService.class);
+                    startService(serviceIntent);
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     LoginActivity.this.startActivity(intent);

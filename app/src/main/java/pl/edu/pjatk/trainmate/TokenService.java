@@ -18,6 +18,14 @@ public interface TokenService {
     );
 
     @FormUrlEncoded
+    @POST("/realms/trainmate/protocol/openid-connect/token")
+    Call<AccessToken> refreshToken(
+        @Field("client_id") String client_id,
+        @Field("grant_type") String grant_type,
+        @Field("refresh_token") String refresh_token
+    );
+
+    @FormUrlEncoded
     @POST("/realms/trainmate/protocol/openid-connect/logout")
     Call<AccessToken> logout(
         @Field("client_id") String client_id,
