@@ -4,6 +4,9 @@ import static pl.edu.pjatk.trainmate.utils.Const.CLIENT_ID;
 import static pl.edu.pjatk.trainmate.utils.Const.PREFS_NAME;
 import static pl.edu.pjatk.trainmate.utils.Const.PREF_REFRESH_TOKEN;
 import static pl.edu.pjatk.trainmate.utils.Const.REFRESH_ACTIVE;
+import static pl.edu.pjatk.trainmate.utils.Const.REFRESH_TAG;
+import static pl.edu.pjatk.trainmate.utils.Const.REFRESH_TOKEN_FAIL;
+import static pl.edu.pjatk.trainmate.utils.Const.TOKEN_REFRESH_GRANT_TYPE;
 import static pl.edu.pjatk.trainmate.utils.Const.defaultRefreshTokenValue;
 
 import android.app.Service;
@@ -12,6 +15,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
 
+import android.util.Log;
 import androidx.annotation.Nullable;
 
 import pl.edu.pjatk.trainmate.utils.Const;
@@ -34,7 +38,6 @@ public class TokenRefreshService extends Service {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        System.out.println("STARTING refresh");
                         refresh();
                     }
                 }
@@ -44,23 +47,16 @@ public class TokenRefreshService extends Service {
     }
 
     private void refresh() {
-        System.out.println("STARTED REFRESH");
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        if (!settings.getBoolean(REFRESH_ACTIVE, false)) {
-            System.out.println("REFRESH IS NOT ACTIVE");
-            return;
-        }
-
         var refreshToken = settings.getString(PREF_REFRESH_TOKEN, defaultRefreshTokenValue);
 
         TokenService service = RetrofitClient.getRetrofitInstance().create(TokenService.class);
 
-        Call<AccessToken> call = service.refreshToken(CLIENT_ID, "refresh_token", refreshToken);
+        Call<AccessToken> call = service.refreshToken(CLIENT_ID, TOKEN_REFRESH_GRANT_TYPE, refreshToken);
         call.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<AccessToken> call, Response<AccessToken> response) {
                 if (response.isSuccessful()) {
-                    System.out.println("REFRESHED TOKEN");
                     Const.ACCESS_TOKEN = response.body().getAccessToken();
                     Const.REFRESH_TOKEN = response.body().getRefreshToken();
                     SharedPreferences settings = getSharedPreferences(Const.PREFS_NAME,
@@ -74,7 +70,7 @@ public class TokenRefreshService extends Service {
 
             @Override
             public void onFailure(Call<AccessToken> call, Throwable throwable) {
-                System.out.println("DUPAA");
+                Log.w(REFRESH_TAG, REFRESH_TOKEN_FAIL);
             }
         });
     }

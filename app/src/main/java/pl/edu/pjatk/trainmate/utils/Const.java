@@ -14,4 +14,8 @@ public class Const {
     public static final String defaultUnameValue = "";
     public static final String defaultPasswordValue = "";
     public static final String defaultRefreshTokenValue = "";
+    public static final String LOCAL_KEYCLOAK_URL = "http://10.0.2.2:8123";
+    public static final String TOKEN_REFRESH_GRANT_TYPE = "refresh_token";
+    public static final String REFRESH_TAG = "REFRESH TOKEN";
+    public static final String REFRESH_TOKEN_FAIL = "Token refresh malfunction";
 }

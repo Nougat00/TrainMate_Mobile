@@ -1,17 +1,17 @@
 package pl.edu.pjatk.trainmate;
 
+import static pl.edu.pjatk.trainmate.utils.Const.LOCAL_KEYCLOAK_URL;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
     private static Retrofit retrofit;
-    private static final String BASE_URL = "http://10.0.2.2:8123";
-
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(LOCAL_KEYCLOAK_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         }
