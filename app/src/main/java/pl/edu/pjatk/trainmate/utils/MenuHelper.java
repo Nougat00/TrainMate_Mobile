@@ -8,15 +8,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.MenuItem;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import com.google.android.material.navigation.NavigationView;
-import pl.edu.pjatk.trainmate.AccessToken;
 import pl.edu.pjatk.trainmate.LoginActivity;
-import pl.edu.pjatk.trainmate.MainActivity;
 import pl.edu.pjatk.trainmate.R;
-import pl.edu.pjatk.trainmate.RetrofitClient;
-import pl.edu.pjatk.trainmate.TokenService;
+import pl.edu.pjatk.trainmate.keycloakIntegration.AccessToken;
+import pl.edu.pjatk.trainmate.keycloakIntegration.RetrofitClient;
+import pl.edu.pjatk.trainmate.keycloakIntegration.TokenService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,6 +26,7 @@ import retrofit2.Response;
 public class MenuHelper extends AppCompatActivity {
 
     public interface OnMenuItemClickListener {
+
         void onMenuItemClick(MenuItem item);
     }
 
@@ -39,18 +42,23 @@ public class MenuHelper extends AppCompatActivity {
         });
     }
 
-    public static void handleMenuItem(MenuItem item, Context context) {
-        int itemId = item.getItemId();
-        if (itemId == R.id.nav_home) {
-            // Do something for home
-        } else if (itemId == R.id.nav_plan) {
-            // Do something for plan
-        } else if (itemId == R.id.nav_report) {
-            // Do something for report
-        } else if (itemId == R.id.nav_logout) {
-            logout(context);
-        } else {
-        }
+    public static void handleMenuItem(NavigationView navigationView, Context context, DrawerLayout drawerLayout) {
+        navigationView.setNavigationItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_home) {
+                openFragment((FragmentActivity) navigationView.getContext(), R.id.nav_home);
+            } else if (itemId == R.id.nav_plan) {
+                openFragment((FragmentActivity) navigationView.getContext(), R.id.nav_plan);
+            } else if (itemId == R.id.nav_report) {
+                openFragment((FragmentActivity) navigationView.getContext(), R.id.nav_report);
+            } else if (itemId == R.id.nav_logout) {
+                logout(context);
+            } else {
+                return false;
+            }
+            drawerLayout.closeDrawers();
+            return true;
+        });
     }
 
 
@@ -73,12 +81,19 @@ public class MenuHelper extends AppCompatActivity {
             }
         });
     }
-    public static void setupNavigationMenu(NavigationView navigationView) {
+
+    public static void setupNavigationMenu(NavigationView navigationView, DrawerLayout drawerLayout) {
         MenuHelper.setupNavigationMenu(navigationView, navigationView.getContext(), new MenuHelper.OnMenuItemClickListener() {
             @Override
             public void onMenuItemClick(MenuItem item) {
-                MenuHelper.handleMenuItem(item, navigationView.getContext());
+                MenuHelper.handleMenuItem(navigationView, navigationView.getContext(), drawerLayout);
             }
         });
+    }
+
+    private static void openFragment(FragmentActivity fragment, int navFragmentId) {
+        NavController navController = Navigation.findNavController(fragment, R.id.nav_host_fragment_content_main);
+        navController.popBackStack(navFragmentId, true);
+        navController.navigate(navFragmentId);
     }
 }

@@ -1,16 +1,16 @@
-package pl.edu.pjatk.trainmate.ui.slideshow;
+package pl.edu.pjatk.trainmate.ui.plan;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SlideshowViewModel extends ViewModel {
+public class PlanViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public SlideshowViewModel() {
+    public PlanViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is slideshow fragment");
+        mText.setValue("This is plan fragment");
     }
 
     public LiveData<String> getText() {

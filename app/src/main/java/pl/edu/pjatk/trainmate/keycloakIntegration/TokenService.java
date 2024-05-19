@@ -1,4 +1,4 @@
-package pl.edu.pjatk.trainmate;
+package pl.edu.pjatk.trainmate.keycloakIntegration;
 
 import retrofit2.Call;
 import retrofit2.http.Field;

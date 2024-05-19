@@ -13,9 +13,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
+import pl.edu.pjatk.trainmate.keycloakIntegration.AccessToken;
+import pl.edu.pjatk.trainmate.keycloakIntegration.RetrofitClient;
+import pl.edu.pjatk.trainmate.keycloakIntegration.TokenRefreshService;
+import pl.edu.pjatk.trainmate.keycloakIntegration.TokenService;
 import pl.edu.pjatk.trainmate.utils.Const;
 import retrofit2.Call;
 import retrofit2.Callback;
