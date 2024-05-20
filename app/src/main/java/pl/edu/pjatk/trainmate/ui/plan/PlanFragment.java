@@ -1,4 +1,4 @@
-package pl.edu.pjatk.trainmate.ui.slideshow;
+package pl.edu.pjatk.trainmate.ui.plan;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,22 +8,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import pl.edu.pjatk.trainmate.databinding.FragmentSlideshowBinding;
+import pl.edu.pjatk.trainmate.databinding.FragmentPlanBinding;
 
-public class SlideshowFragment extends Fragment {
+public class PlanFragment extends Fragment {
 
-    private FragmentSlideshowBinding binding;
+    private FragmentPlanBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
         ViewGroup container, Bundle savedInstanceState) {
-        SlideshowViewModel slideshowViewModel =
-            new ViewModelProvider(this).get(SlideshowViewModel.class);
+        PlanViewModel planViewModel =
+            new ViewModelProvider(this).get(PlanViewModel.class);
 
-        binding = FragmentSlideshowBinding.inflate(inflater, container, false);
+        binding = FragmentPlanBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textSlideshow;
-        slideshowViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        planViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

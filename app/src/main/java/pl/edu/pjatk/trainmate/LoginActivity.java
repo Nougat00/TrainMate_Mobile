@@ -1,18 +1,23 @@
 package pl.edu.pjatk.trainmate;
 
 import static pl.edu.pjatk.trainmate.utils.Const.CLIENT_ID;
+import static pl.edu.pjatk.trainmate.utils.Const.LOGIN_FAIL_ANNOUNCEMENT;
 import static pl.edu.pjatk.trainmate.utils.Const.REFRESH_ACTIVE;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
+import pl.edu.pjatk.trainmate.keycloakIntegration.AccessToken;
+import pl.edu.pjatk.trainmate.keycloakIntegration.RetrofitClient;
+import pl.edu.pjatk.trainmate.keycloakIntegration.TokenRefreshService;
+import pl.edu.pjatk.trainmate.keycloakIntegration.TokenService;
 import pl.edu.pjatk.trainmate.utils.Const;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etUsername;
     private EditText etPassword;
     private Button btnLogin;
+    private TextView announcementTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         etUsername = findViewById(R.id.etUsername);
         btnLogin = findViewById(R.id.btnLogin);
+        announcementTextView = findViewById(R.id.announcement);
 
         btnLogin.setOnClickListener(v -> getAccessToken());
     }
@@ -65,6 +72,8 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     LoginActivity.this.startActivity(intent);
                 } else {
+                    announcementTextView.setText(LOGIN_FAIL_ANNOUNCEMENT);
+                    announcementTextView.setTextColor(Color.RED);
                     Toast.makeText(LoginActivity.this, "Error:", Toast.LENGTH_LONG).show();
                 }
             }

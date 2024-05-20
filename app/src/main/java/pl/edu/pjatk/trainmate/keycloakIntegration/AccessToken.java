@@ -1,4 +1,4 @@
-package pl.edu.pjatk.trainmate;
+package pl.edu.pjatk.trainmate.keycloakIntegration;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -1,4 +1,4 @@
-package pl.edu.pjatk.trainmate.ui.gallery;
+package pl.edu.pjatk.trainmate.ui.report;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,22 +8,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import pl.edu.pjatk.trainmate.databinding.FragmentGalleryBinding;
+import pl.edu.pjatk.trainmate.databinding.FragmentReportBinding;
 
-public class GalleryFragment extends Fragment {
+public class ReportFragment extends Fragment {
 
-    private FragmentGalleryBinding binding;
+    private FragmentReportBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
         ViewGroup container, Bundle savedInstanceState) {
-        GalleryViewModel galleryViewModel =
-            new ViewModelProvider(this).get(GalleryViewModel.class);
+        ReportViewModel reportViewModel =
+            new ViewModelProvider(this).get(ReportViewModel.class);
 
-        binding = FragmentGalleryBinding.inflate(inflater, container, false);
+        binding = FragmentReportBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textGallery;
-        galleryViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        reportViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

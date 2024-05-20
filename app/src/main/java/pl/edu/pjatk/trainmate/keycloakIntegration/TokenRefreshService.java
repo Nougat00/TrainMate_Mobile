@@ -1,9 +1,8 @@
-package pl.edu.pjatk.trainmate;
+package pl.edu.pjatk.trainmate.keycloakIntegration;
 
 import static pl.edu.pjatk.trainmate.utils.Const.CLIENT_ID;
 import static pl.edu.pjatk.trainmate.utils.Const.PREFS_NAME;
 import static pl.edu.pjatk.trainmate.utils.Const.PREF_REFRESH_TOKEN;
-import static pl.edu.pjatk.trainmate.utils.Const.REFRESH_ACTIVE;
 import static pl.edu.pjatk.trainmate.utils.Const.REFRESH_TAG;
 import static pl.edu.pjatk.trainmate.utils.Const.REFRESH_TOKEN_FAIL;
 import static pl.edu.pjatk.trainmate.utils.Const.TOKEN_REFRESH_GRANT_TYPE;
@@ -14,10 +13,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
-
 import android.util.Log;
 import androidx.annotation.Nullable;
-
 import pl.edu.pjatk.trainmate.utils.Const;
 import retrofit2.Call;
 import retrofit2.Callback;
