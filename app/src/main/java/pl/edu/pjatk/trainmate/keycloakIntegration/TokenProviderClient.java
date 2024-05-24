@@ -5,7 +5,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
-public interface TokenService {
+public interface TokenProviderClient {
 
     @FormUrlEncoded
     @POST("/realms/trainmate/protocol/openid-connect/token")

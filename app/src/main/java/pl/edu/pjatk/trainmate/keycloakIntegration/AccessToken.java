@@ -14,8 +14,6 @@ public class AccessToken {
     private String refreshToken;
     @SerializedName("token_type")
     private String tokenType;
-    @SerializedName("id_token")
-    private String idToken;
     @SerializedName("not—before—policy")
     private Integer notBeforePoIicy;
     @SerializedName("session_state")

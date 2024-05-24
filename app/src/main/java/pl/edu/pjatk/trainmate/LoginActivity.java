@@ -3,6 +3,7 @@ package pl.edu.pjatk.trainmate;
 import static pl.edu.pjatk.trainmate.utils.Const.CLIENT_ID;
 import static pl.edu.pjatk.trainmate.utils.Const.LOGIN_FAIL_ANNOUNCEMENT;
 import static pl.edu.pjatk.trainmate.utils.Const.REFRESH_ACTIVE;
+import static pl.edu.pjatk.trainmate.utils.Const.TOKEN_TEST;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,8 +17,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import pl.edu.pjatk.trainmate.keycloakIntegration.AccessToken;
 import pl.edu.pjatk.trainmate.keycloakIntegration.RetrofitClient;
+import pl.edu.pjatk.trainmate.keycloakIntegration.TokenProviderClient;
 import pl.edu.pjatk.trainmate.keycloakIntegration.TokenRefreshService;
-import pl.edu.pjatk.trainmate.keycloakIntegration.TokenService;
 import pl.edu.pjatk.trainmate.utils.Const;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void getAccessToken() {
-        TokenService service = RetrofitClient.getRetrofitInstance().create(TokenService.class);
+        TokenProviderClient service = RetrofitClient.getRetrofitInstance().create(TokenProviderClient.class);
 
         String password = etPassword.getText().toString();
         String username = etUsername.getText().toString();
@@ -54,14 +55,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<AccessToken> call, Response<AccessToken> response) {
                 if (response.isSuccessful()) {
-                    Const.ACCESS_TOKEN = response.body().getAccessToken();
-                    Const.REFRESH_TOKEN = response.body().getRefreshToken();
                     SharedPreferences settings = getSharedPreferences(Const.PREFS_NAME,
                         Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString(Const.PREF_UNAME, username);
                     editor.putString(Const.PREF_PASSWORD, password);
                     editor.putString(Const.PREF_ACCESS_TOKEN, response.body().getAccessToken());
+                    TOKEN_TEST = response.body().getAccessToken();
                     editor.putString(Const.PREF_REFRESH_TOKEN, response.body().getRefreshToken());
                     editor.putBoolean(REFRESH_ACTIVE, true);
                     editor.commit();

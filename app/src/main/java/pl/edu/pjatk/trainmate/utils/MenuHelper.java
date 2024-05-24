@@ -18,7 +18,7 @@ import pl.edu.pjatk.trainmate.LoginActivity;
 import pl.edu.pjatk.trainmate.R;
 import pl.edu.pjatk.trainmate.keycloakIntegration.AccessToken;
 import pl.edu.pjatk.trainmate.keycloakIntegration.RetrofitClient;
-import pl.edu.pjatk.trainmate.keycloakIntegration.TokenService;
+import pl.edu.pjatk.trainmate.keycloakIntegration.TokenProviderClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -63,7 +63,7 @@ public class MenuHelper extends AppCompatActivity {
 
 
     private static void logout(Context context) {
-        TokenService service = RetrofitClient.getRetrofitInstance().create(TokenService.class);
+        TokenProviderClient service = RetrofitClient.getRetrofitInstance().create(TokenProviderClient.class);
 
         Call<AccessToken> call = service.logout(CLIENT_ID, Const.REFRESH_TOKEN);
         SharedPreferences settings = context.getSharedPreferences(Const.PREFS_NAME,
