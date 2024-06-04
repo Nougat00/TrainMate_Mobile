@@ -14,7 +14,7 @@ public class Const {
     public static final String CLIENT_ID = "train-mate";
     public static final String DEFAULT_STRING_VALUE = "";
     public static final String LOCAL_KEYCLOAK_URL = "http://10.0.2.2:8123";
-    public static final String LOCAL_API_URL = "http://10.0.2.2:8081/api/tm-core/";
+    public static final String LOCAL_API_URL = "http://10.0.2.2:8080/api/tm-core/";
     public static final String TOKEN_REFRESH_GRANT_TYPE = "refresh_token";
     public static final String REFRESH_TAG = "REFRESH TOKEN";
     public static final String REFRESH_TOKEN_FAIL = "Token refresh malfunction";

@@ -18,9 +18,9 @@ public class PlanFragment extends Fragment {
     private FragmentPlanBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
-        ViewGroup container, Bundle savedInstanceState) {
+                             ViewGroup container, Bundle savedInstanceState) {
         PlanViewModel planViewModel =
-            new ViewModelProvider(this).get(PlanViewModel.class);
+                new ViewModelProvider(this).get(PlanViewModel.class);
 
         binding = FragmentPlanBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
