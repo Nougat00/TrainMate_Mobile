@@ -1,12 +1,12 @@
 package pl.edu.pjatk.trainmate.keycloakIntegration;
 
+import static pl.edu.pjatk.trainmate.utils.Const.API_FAIL;
+import static pl.edu.pjatk.trainmate.utils.Const.API_TAG;
 import static pl.edu.pjatk.trainmate.utils.Const.CLIENT_ID;
+import static pl.edu.pjatk.trainmate.utils.Const.DEFAULT_STRING_VALUE;
 import static pl.edu.pjatk.trainmate.utils.Const.PREFS_NAME;
 import static pl.edu.pjatk.trainmate.utils.Const.PREF_REFRESH_TOKEN;
-import static pl.edu.pjatk.trainmate.utils.Const.REFRESH_TAG;
-import static pl.edu.pjatk.trainmate.utils.Const.REFRESH_TOKEN_FAIL;
 import static pl.edu.pjatk.trainmate.utils.Const.TOKEN_REFRESH_GRANT_TYPE;
-import static pl.edu.pjatk.trainmate.utils.Const.defaultRefreshTokenValue;
 
 import android.app.Service;
 import android.content.Context;
@@ -45,17 +45,15 @@ public class TokenRefreshService extends Service {
 
     private void refresh() {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        var refreshToken = settings.getString(PREF_REFRESH_TOKEN, defaultRefreshTokenValue);
+        var refreshToken = settings.getString(PREF_REFRESH_TOKEN, DEFAULT_STRING_VALUE);
 
-        TokenService service = RetrofitClient.getRetrofitInstance().create(TokenService.class);
+        TokenProviderClient client = RetrofitClient.getRetrofitInstance().create(TokenProviderClient.class);
 
-        Call<AccessToken> call = service.refreshToken(CLIENT_ID, TOKEN_REFRESH_GRANT_TYPE, refreshToken);
+        Call<AccessToken> call = client.refreshToken(CLIENT_ID, TOKEN_REFRESH_GRANT_TYPE, refreshToken);
         call.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<AccessToken> call, Response<AccessToken> response) {
                 if (response.isSuccessful()) {
-                    Const.ACCESS_TOKEN = response.body().getAccessToken();
-                    Const.REFRESH_TOKEN = response.body().getRefreshToken();
                     SharedPreferences settings = getSharedPreferences(Const.PREFS_NAME,
                         Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = settings.edit();
@@ -67,7 +65,7 @@ public class TokenRefreshService extends Service {
 
             @Override
             public void onFailure(Call<AccessToken> call, Throwable throwable) {
-                Log.w(REFRESH_TAG, REFRESH_TOKEN_FAIL);
+                Log.w(API_TAG, API_FAIL);
             }
         });
     }

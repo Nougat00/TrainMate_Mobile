@@ -1,10 +1,15 @@
 package pl.edu.pjatk.trainmate;
 
+import static android.widget.Toast.LENGTH_LONG;
 import static pl.edu.pjatk.trainmate.utils.Const.CLIENT_ID;
 import static pl.edu.pjatk.trainmate.utils.Const.LOGIN_FAIL_ANNOUNCEMENT;
+import static pl.edu.pjatk.trainmate.utils.Const.PREFS_NAME;
+import static pl.edu.pjatk.trainmate.utils.Const.PREF_ACCESS_TOKEN;
+import static pl.edu.pjatk.trainmate.utils.Const.PREF_PASSWORD;
+import static pl.edu.pjatk.trainmate.utils.Const.PREF_REFRESH_TOKEN;
+import static pl.edu.pjatk.trainmate.utils.Const.PREF_UNAME;
 import static pl.edu.pjatk.trainmate.utils.Const.REFRESH_ACTIVE;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -16,9 +21,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import pl.edu.pjatk.trainmate.keycloakIntegration.AccessToken;
 import pl.edu.pjatk.trainmate.keycloakIntegration.RetrofitClient;
+import pl.edu.pjatk.trainmate.keycloakIntegration.TokenProviderClient;
 import pl.edu.pjatk.trainmate.keycloakIntegration.TokenRefreshService;
-import pl.edu.pjatk.trainmate.keycloakIntegration.TokenService;
-import pl.edu.pjatk.trainmate.utils.Const;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,25 +48,22 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void getAccessToken() {
-        TokenService service = RetrofitClient.getRetrofitInstance().create(TokenService.class);
+        TokenProviderClient service = RetrofitClient.getRetrofitInstance().create(TokenProviderClient.class);
 
         String password = etPassword.getText().toString();
         String username = etUsername.getText().toString();
 
-        Call<AccessToken> call = service.getAccessToken(CLIENT_ID, "password", "openid", username, password);
+        Call<AccessToken> call = service.getAccessToken("password", username, password, CLIENT_ID);
         call.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<AccessToken> call, Response<AccessToken> response) {
                 if (response.isSuccessful()) {
-                    Const.ACCESS_TOKEN = response.body().getAccessToken();
-                    Const.REFRESH_TOKEN = response.body().getRefreshToken();
-                    SharedPreferences settings = getSharedPreferences(Const.PREFS_NAME,
-                        Context.MODE_PRIVATE);
+                    SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
                     SharedPreferences.Editor editor = settings.edit();
-                    editor.putString(Const.PREF_UNAME, username);
-                    editor.putString(Const.PREF_PASSWORD, password);
-                    editor.putString(Const.PREF_ACCESS_TOKEN, response.body().getAccessToken());
-                    editor.putString(Const.PREF_REFRESH_TOKEN, response.body().getRefreshToken());
+                    editor.putString(PREF_UNAME, username);
+                    editor.putString(PREF_PASSWORD, password);
+                    editor.putString(PREF_ACCESS_TOKEN, response.body().getAccessToken());
+                    editor.putString(PREF_REFRESH_TOKEN, response.body().getRefreshToken());
                     editor.putBoolean(REFRESH_ACTIVE, true);
                     editor.commit();
 
@@ -74,13 +75,13 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     announcementTextView.setText(LOGIN_FAIL_ANNOUNCEMENT);
                     announcementTextView.setTextColor(Color.RED);
-                    Toast.makeText(LoginActivity.this, "Error:", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Error:", LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<AccessToken> call, Throwable throwable) {
-                Toast.makeText(LoginActivity.this, "Error:" + throwable, Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "Error:" + throwable, LENGTH_LONG).show();
             }
         });
     }
