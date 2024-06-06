@@ -9,8 +9,6 @@ import static pl.edu.pjatk.trainmate.utils.Const.PREF_PASSWORD;
 import static pl.edu.pjatk.trainmate.utils.Const.PREF_REFRESH_TOKEN;
 import static pl.edu.pjatk.trainmate.utils.Const.PREF_UNAME;
 import static pl.edu.pjatk.trainmate.utils.Const.REFRESH_ACTIVE;
-import static pl.edu.pjatk.trainmate.utils.Const.REFRESH_TOKEN;
-import static pl.edu.pjatk.trainmate.utils.Const.TOKEN_TEST;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,9 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import pl.edu.pjatk.trainmate.keycloakIntegration.AccessToken;
 import pl.edu.pjatk.trainmate.keycloakIntegration.RetrofitClient;
 import pl.edu.pjatk.trainmate.keycloakIntegration.TokenProviderClient;
@@ -67,8 +63,6 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString(PREF_UNAME, username);
                     editor.putString(PREF_PASSWORD, password);
                     editor.putString(PREF_ACCESS_TOKEN, response.body().getAccessToken());
-                    TOKEN_TEST = response.body().getAccessToken();
-                    REFRESH_TOKEN = response.body().getRefreshToken();
                     editor.putString(PREF_REFRESH_TOKEN, response.body().getRefreshToken());
                     editor.putBoolean(REFRESH_ACTIVE, true);
                     editor.commit();

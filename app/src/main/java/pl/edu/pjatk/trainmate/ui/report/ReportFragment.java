@@ -15,9 +15,9 @@ public class ReportFragment extends Fragment {
     private FragmentReportBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+        ViewGroup container, Bundle savedInstanceState) {
         ReportViewModel reportViewModel =
-                new ViewModelProvider(this).get(ReportViewModel.class);
+            new ViewModelProvider(this).get(ReportViewModel.class);
 
         binding = FragmentReportBinding.inflate(inflater, container, false);
         View root = binding.getRoot();

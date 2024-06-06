@@ -1,13 +1,12 @@
 package pl.edu.pjatk.trainmate.keycloakIntegration;
 
+import static pl.edu.pjatk.trainmate.utils.Const.API_FAIL;
+import static pl.edu.pjatk.trainmate.utils.Const.API_TAG;
 import static pl.edu.pjatk.trainmate.utils.Const.CLIENT_ID;
 import static pl.edu.pjatk.trainmate.utils.Const.DEFAULT_STRING_VALUE;
 import static pl.edu.pjatk.trainmate.utils.Const.PREFS_NAME;
 import static pl.edu.pjatk.trainmate.utils.Const.PREF_REFRESH_TOKEN;
-import static pl.edu.pjatk.trainmate.utils.Const.REFRESH_TAG;
-import static pl.edu.pjatk.trainmate.utils.Const.REFRESH_TOKEN_FAIL;
 import static pl.edu.pjatk.trainmate.utils.Const.TOKEN_REFRESH_GRANT_TYPE;
-import static pl.edu.pjatk.trainmate.utils.Const.TOKEN_TEST;
 
 import android.app.Service;
 import android.content.Context;
@@ -59,7 +58,6 @@ public class TokenRefreshService extends Service {
                         Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString(Const.PREF_ACCESS_TOKEN, response.body().getAccessToken());
-                    TOKEN_TEST = response.body().getAccessToken();
                     editor.putString(Const.PREF_REFRESH_TOKEN, response.body().getRefreshToken());
                     editor.commit();
                 }
@@ -67,7 +65,7 @@ public class TokenRefreshService extends Service {
 
             @Override
             public void onFailure(Call<AccessToken> call, Throwable throwable) {
-                Log.w(REFRESH_TAG, REFRESH_TOKEN_FAIL);
+                Log.w(API_TAG, API_FAIL);
             }
         });
     }

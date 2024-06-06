@@ -1,7 +1,6 @@
 package pl.edu.pjatk.trainmate.api.plan;
 
 import com.google.gson.annotations.SerializedName;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,16 +34,16 @@ public class ExerciseItemProjection {
     @Override
     public String toString() {
         return "ExerciseItemProjection{" +
-                "id=" + id +
-                ", repetitions=" + repetitions +
-                ", tempo='" + tempo + '\'' +
-                ", weight=" + weight +
-                ", rir=" + rir +
-                ", sets=" + sets +
-                ", muscleInvolved=" + muscleInvolved +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", url='" + url + '\'' +
-                '}';
+            "id=" + id +
+            ", repetitions=" + repetitions +
+            ", tempo='" + tempo + '\'' +
+            ", weight=" + weight +
+            ", rir=" + rir +
+            ", sets=" + sets +
+            ", muscleInvolved=" + muscleInvolved +
+            ", name='" + name + '\'' +
+            ", description='" + description + '\'' +
+            ", url='" + url + '\'' +
+            '}';
     }
 }

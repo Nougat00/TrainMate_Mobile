@@ -10,24 +10,24 @@ public interface TokenProviderClient {
     @FormUrlEncoded
     @POST("/realms/trainmate/protocol/openid-connect/token")
     Call<AccessToken> getAccessToken(
-            @Field("grant_type") String grant_type,
-            @Field("username") String username,
-            @Field("password") String password,
-            @Field("client_id") String client_id
+        @Field("grant_type") String grant_type,
+        @Field("username") String username,
+        @Field("password") String password,
+        @Field("client_id") String client_id
     );
 
     @FormUrlEncoded
     @POST("/realms/trainmate/protocol/openid-connect/token")
     Call<AccessToken> refreshToken(
-            @Field("client_id") String client_id,
-            @Field("grant_type") String grant_type,
-            @Field("refresh_token") String refresh_token
+        @Field("client_id") String client_id,
+        @Field("grant_type") String grant_type,
+        @Field("refresh_token") String refresh_token
     );
 
     @FormUrlEncoded
     @POST("/realms/trainmate/protocol/openid-connect/logout")
     Call<AccessToken> logout(
-            @Field("client_id") String client_id,
-            @Field("refresh_token") String refresh_token
+        @Field("client_id") String client_id,
+        @Field("refresh_token") String refresh_token
     );
 }

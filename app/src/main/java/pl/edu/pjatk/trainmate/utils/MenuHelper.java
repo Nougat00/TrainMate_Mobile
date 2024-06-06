@@ -1,6 +1,8 @@
 package pl.edu.pjatk.trainmate.utils;
 
 import static pl.edu.pjatk.trainmate.utils.Const.CLIENT_ID;
+import static pl.edu.pjatk.trainmate.utils.Const.DEFAULT_STRING_VALUE;
+import static pl.edu.pjatk.trainmate.utils.Const.PREF_REFRESH_TOKEN;
 import static pl.edu.pjatk.trainmate.utils.Const.REFRESH_ACTIVE;
 
 import android.content.Context;
@@ -65,9 +67,9 @@ public class MenuHelper extends AppCompatActivity {
     private static void logout(Context context) {
         TokenProviderClient service = RetrofitClient.getRetrofitInstance().create(TokenProviderClient.class);
 
-        Call<AccessToken> call = service.logout(CLIENT_ID, Const.REFRESH_TOKEN);
         SharedPreferences settings = context.getSharedPreferences(Const.PREFS_NAME,
             Context.MODE_PRIVATE);
+        Call<AccessToken> call = service.logout(CLIENT_ID, settings.getString(PREF_REFRESH_TOKEN, DEFAULT_STRING_VALUE));
         settings.edit().putBoolean(REFRESH_ACTIVE, false).commit();
         call.enqueue(new Callback<>() {
             @Override
