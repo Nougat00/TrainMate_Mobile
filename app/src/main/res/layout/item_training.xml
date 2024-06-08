@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:orientation="vertical"
+  android:padding="16dp">
+
+    <TextView
+      android:id="@+id/tvDayOfWeek"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textStyle="bold"
+      android:textSize="18sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/rvExercises"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
+
+    <EditText
+      android:id="@+id/etReport"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:hint="Wpisz raport"
+      android:visibility="gone"
+      android:inputType="textMultiLine" />
+</LinearLayout>

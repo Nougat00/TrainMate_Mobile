@@ -1,6 +1,8 @@
 package pl.edu.pjatk.trainmate;
 
 import static android.widget.Toast.LENGTH_LONG;
+import static pl.edu.pjatk.trainmate.utils.Const.API_FAIL;
+import static pl.edu.pjatk.trainmate.utils.Const.API_TAG;
 import static pl.edu.pjatk.trainmate.utils.Const.CLIENT_ID;
 import static pl.edu.pjatk.trainmate.utils.Const.LOGIN_FAIL_ANNOUNCEMENT;
 import static pl.edu.pjatk.trainmate.utils.Const.PREFS_NAME;
@@ -14,6 +16,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -81,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<AccessToken> call, Throwable throwable) {
-                Toast.makeText(LoginActivity.this, "Error:" + throwable, LENGTH_LONG).show();
+                Log.w(API_TAG, API_FAIL);
             }
         });
     }
