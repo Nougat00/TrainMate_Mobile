@@ -19,4 +19,14 @@ public class Const {
     public static final String TOKEN_TYPE = "Bearer ";
     public static final String API_FAIL = "Data downloading from API malfunction";
     public static final String API_TAG = "API FAIL";
+    public static final String REPS_TEXT = "Reps: ";
+    public static final String WEIGHT_TEXT = " | Weight: ";
+    public static final String SETS_TEXT = " | Sets: ";
+    public static final String TEMPO_TEXT = " | Tempo: ";
+    public static final String RIR_TEXT = " | Rir: ";
+    public static final String ADD_REPORT_BUTTON_TEXT = "Add report";
+    public static final String CLOSE_REPORT_BUTTON_TEXT = "Close report";
+    public static final String WEIGHT_FOR_SERIES_TEXT = "Weight for series: ";
+    public static final String REPS_FOR_SERIES_TEXT = "Reps for series: ";
+    public static final String RIR_FOR_SERIES_TEXT = "RIR for series: ";
 }

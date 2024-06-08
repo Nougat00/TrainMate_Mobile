@@ -4,32 +4,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import pl.edu.pjatk.trainmate.databinding.FragmentReportBinding;
+import pl.edu.pjatk.trainmate.R;
 
 public class ReportFragment extends Fragment {
 
-    private FragmentReportBinding binding;
-
-    public View onCreateView(@NonNull LayoutInflater inflater,
-        ViewGroup container, Bundle savedInstanceState) {
-        ReportViewModel reportViewModel =
-            new ViewModelProvider(this).get(ReportViewModel.class);
-
-        binding = FragmentReportBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-        final TextView textView = binding.textGallery;
-        reportViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-        return root;
-    }
-
+    @Nullable
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_report, container, false);
     }
+
 }
