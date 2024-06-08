@@ -26,7 +26,12 @@ public class Const {
     public static final String RIR_TEXT = " | Rir: ";
     public static final String ADD_REPORT_BUTTON_TEXT = "Add report";
     public static final String CLOSE_REPORT_BUTTON_TEXT = "Close report";
-    public static final String WEIGHT_FOR_SERIES_TEXT = "Weight for series: ";
-    public static final String REPS_FOR_SERIES_TEXT = "Reps for series: ";
-    public static final String RIR_FOR_SERIES_TEXT = "RIR for series: ";
+    public static final String WEIGHT_FOR_SERIES_TEXT = "Weight series: ";
+    public static final String REPS_FOR_SERIES_TEXT = "Reps series: ";
+    public static final String RIR_FOR_SERIES_TEXT = "RIR series: ";
+    public static final String REMARKS_TEXT = "Remarks for all training unit";
+    public static final String EMPTY_FIELD_ERROR = "Field cannot be empty";
+    public static final String NEGATIVE_NUMBER_ERROR = "Number cannot be negative";
+    public static final String INVALID_NUMBER_ERROR = "Invalid number format";
+    public static final char DASH = '-';
 }

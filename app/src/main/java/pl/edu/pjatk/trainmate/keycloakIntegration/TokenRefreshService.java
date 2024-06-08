@@ -1,11 +1,11 @@
 package pl.edu.pjatk.trainmate.keycloakIntegration;
 
-import static pl.edu.pjatk.trainmate.utils.Const.API_FAIL;
-import static pl.edu.pjatk.trainmate.utils.Const.API_TAG;
 import static pl.edu.pjatk.trainmate.utils.Const.CLIENT_ID;
 import static pl.edu.pjatk.trainmate.utils.Const.DEFAULT_STRING_VALUE;
 import static pl.edu.pjatk.trainmate.utils.Const.PREFS_NAME;
 import static pl.edu.pjatk.trainmate.utils.Const.PREF_REFRESH_TOKEN;
+import static pl.edu.pjatk.trainmate.utils.Const.REFRESH_TAG;
+import static pl.edu.pjatk.trainmate.utils.Const.REFRESH_TOKEN_FAIL;
 import static pl.edu.pjatk.trainmate.utils.Const.TOKEN_REFRESH_GRANT_TYPE;
 
 import android.app.Service;
@@ -65,7 +65,7 @@ public class TokenRefreshService extends Service {
 
             @Override
             public void onFailure(Call<AccessToken> call, Throwable throwable) {
-                Log.w(API_TAG, API_FAIL);
+                Log.w(REFRESH_TAG, REFRESH_TOKEN_FAIL);
             }
         });
     }
