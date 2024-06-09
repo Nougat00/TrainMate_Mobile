@@ -32,27 +32,22 @@ public class MenuHelper extends AppCompatActivity {
         void onMenuItemClick(MenuItem item);
     }
 
-    public static void setupNavigationMenu(NavigationView navigationView, final Context context, final OnMenuItemClickListener listener) {
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                if (listener != null) {
-                    listener.onMenuItemClick(item);
-                }
-                return true;
+    public static void setupNavigationMenu(NavigationView navigationView, final OnMenuItemClickListener listener) {
+        navigationView.setNavigationItemSelectedListener(item -> {
+            if (listener != null) {
+                listener.onMenuItemClick(item);
             }
+            return true;
         });
     }
 
     public static void handleMenuItem(NavigationView navigationView, Context context, DrawerLayout drawerLayout) {
         navigationView.setNavigationItemSelectedListener(item -> {
             int itemId = item.getItemId();
-            if (itemId == R.id.nav_home) {
-                openFragment((FragmentActivity) navigationView.getContext(), R.id.nav_home);
-            } else if (itemId == R.id.nav_plan) {
+            if (itemId == R.id.nav_plan) {
                 openFragment((FragmentActivity) navigationView.getContext(), R.id.nav_plan);
-            } else if (itemId == R.id.nav_report) {
-                openFragment((FragmentActivity) navigationView.getContext(), R.id.nav_report);
+            } else if (itemId == R.id.nav_progress) {
+                openFragment((FragmentActivity) navigationView.getContext(), R.id.nav_progress);
             } else if (itemId == R.id.nav_logout) {
                 logout(context);
             } else {
@@ -85,17 +80,13 @@ public class MenuHelper extends AppCompatActivity {
     }
 
     public static void setupNavigationMenu(NavigationView navigationView, DrawerLayout drawerLayout) {
-        MenuHelper.setupNavigationMenu(navigationView, navigationView.getContext(), new MenuHelper.OnMenuItemClickListener() {
-            @Override
-            public void onMenuItemClick(MenuItem item) {
-                MenuHelper.handleMenuItem(navigationView, navigationView.getContext(), drawerLayout);
-            }
-        });
+        MenuHelper.setupNavigationMenu(navigationView, item -> MenuHelper.handleMenuItem(navigationView, navigationView.getContext(), drawerLayout));
     }
 
     private static void openFragment(FragmentActivity fragment, int navFragmentId) {
         NavController navController = Navigation.findNavController(fragment, R.id.nav_host_fragment_content_main);
         navController.popBackStack(navFragmentId, true);
         navController.navigate(navFragmentId);
+
     }
 }

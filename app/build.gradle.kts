@@ -45,6 +45,7 @@ dependencies {
     implementation(libs.navigation.ui)
     implementation(libs.retrofit)
     implementation(libs.commons.lang3)
+    implementation(libs.mpandroidchart)
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
     implementation(libs.converter.gson)
