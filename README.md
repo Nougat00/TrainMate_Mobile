@@ -16,8 +16,8 @@ allowing trainers to streamline their workflow and provide better support to the
 
 - [ ] User authentication and integration with Keycloak
 - [ ] Viewing workout plans
-- [ ] Viewing diet plans
 - [ ] Adding reports
+- [ ] Progress preview
 
 ### Non-MVP:
 

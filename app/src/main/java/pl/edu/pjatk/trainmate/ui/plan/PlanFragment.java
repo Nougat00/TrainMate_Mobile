@@ -42,7 +42,6 @@ public class PlanFragment extends Fragment {
             public void onResponse(Call<List<TrainingUnitProjection>> call, Response<List<TrainingUnitProjection>> response) {
                 if (response.isSuccessful()) {
                     setAll(response, view);
-                    System.out.println(response.body().toString());
                 }
             }
 
