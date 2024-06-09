@@ -3,23 +3,17 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:id="@+id/mobile_navigation"
-  app:startDestination="@+id/nav_home">
-
-    <fragment
-      android:id="@+id/nav_home"
-      android:name="pl.edu.pjatk.trainmate.ui.home.HomeFragment"
-      android:label="@string/menu_home"
-      tools:layout="@layout/fragment_home" />
+  app:startDestination="@+id/nav_plan">
 
     <fragment
       android:id="@+id/nav_plan"
       android:name="pl.edu.pjatk.trainmate.ui.plan.PlanFragment"
       android:label="@string/menu_plan"
-      tools:layout="@layout/fragment_report" />
+      tools:layout="@layout/fragment_plan" />
 
     <fragment
-      android:id="@+id/nav_report"
-      android:name="pl.edu.pjatk.trainmate.ui.report.ReportFragment"
-      android:label="@string/menu_report"
-      tools:layout="@layout/fragment_plan" />
+      android:id="@+id/nav_progress"
+      android:name="pl.edu.pjatk.trainmate.ui.progress.ProgressFragment"
+      android:label="@string/menu_progress"
+      tools:layout="@layout/fragment_progress" />
 </navigation>

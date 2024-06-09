@@ -2,6 +2,8 @@ package pl.edu.pjatk.trainmate.ui.plan;
 
 import static android.content.Context.MODE_PRIVATE;
 import static pl.edu.pjatk.trainmate.utils.Const.ADD_REPORT_BUTTON_TEXT;
+import static pl.edu.pjatk.trainmate.utils.Const.API_FAIL;
+import static pl.edu.pjatk.trainmate.utils.Const.API_TAG;
 import static pl.edu.pjatk.trainmate.utils.Const.CLOSE_REPORT_BUTTON_TEXT;
 import static pl.edu.pjatk.trainmate.utils.Const.DASH;
 import static pl.edu.pjatk.trainmate.utils.Const.DEFAULT_STRING_VALUE;
@@ -25,7 +27,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.text.InputFilter;
 import android.text.InputType;
-import android.text.Spanned;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,11 +35,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.lang3.StringUtils;
+
 import pl.edu.pjatk.trainmate.R;
 import pl.edu.pjatk.trainmate.api.RetrofitApiClient;
 import pl.edu.pjatk.trainmate.api.plan.ExerciseItemProjection;
@@ -101,7 +107,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
 
                     @Override
                     public void onFailure(Call<Void> call, Throwable throwable) {
-                        System.out.println(throwable);
+                        Log.e(API_TAG, API_FAIL + throwable.getMessage());
                     }
                 });
             }
@@ -115,11 +121,10 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
 
     private ReportCreateDto getPreparedReport(ExerciseViewHolder holder, ExerciseItemProjection exercise) {
         List<SetParams> setParamsList = new ArrayList<>();
-        String remarks = "";
+        String remarks = StringUtils.EMPTY;
         for (int i = 0; i < holder.layoutReports.getChildCount(); i++) {
             View view = holder.layoutReports.getChildAt(i);
-            if (view instanceof LinearLayout) {
-                LinearLayout row = (LinearLayout) view;
+            if (view instanceof LinearLayout row) {
                 EditText weightEditText = (EditText) row.getChildAt(0);
                 EditText repetitionsEditText = (EditText) row.getChildAt(1);
                 EditText rirEditText = (EditText) row.getChildAt(2);
@@ -169,8 +174,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         boolean isValid = true;
         for (int i = 0; i < holder.layoutReports.getChildCount(); i++) {
             View view = holder.layoutReports.getChildAt(i);
-            if (view instanceof LinearLayout) {
-                LinearLayout row = (LinearLayout) view;
+            if (view instanceof LinearLayout row) {
                 EditText weightEditText = (EditText) row.getChildAt(0);
                 EditText repetitionsEditText = (EditText) row.getChildAt(1);
                 EditText rirEditText = (EditText) row.getChildAt(2);
@@ -236,16 +240,13 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         );
         params.weight = 1;
 
-        InputFilter negativeFilter = new InputFilter() {
-            @Override
-            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                for (int i = start; i < end; i++) {
-                    if (source.charAt(i) == DASH) {
-                        return StringUtils.EMPTY;
-                    }
+        InputFilter negativeFilter = (source, start, end, dest, dstart, dend) -> {
+            for (int i = start; i < end; i++) {
+                if (source.charAt(i) == DASH) {
+                    return StringUtils.EMPTY;
                 }
-                return null;
             }
+            return null;
         };
 
         for (int i = 0; i < sets; i++) {

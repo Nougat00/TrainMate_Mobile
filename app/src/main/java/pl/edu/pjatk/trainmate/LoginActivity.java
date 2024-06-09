@@ -1,9 +1,9 @@
 package pl.edu.pjatk.trainmate;
 
-import static android.widget.Toast.LENGTH_LONG;
 import static pl.edu.pjatk.trainmate.utils.Const.API_FAIL;
 import static pl.edu.pjatk.trainmate.utils.Const.API_TAG;
 import static pl.edu.pjatk.trainmate.utils.Const.CLIENT_ID;
+import static pl.edu.pjatk.trainmate.utils.Const.GRANT_TYPE;
 import static pl.edu.pjatk.trainmate.utils.Const.LOGIN_FAIL_ANNOUNCEMENT;
 import static pl.edu.pjatk.trainmate.utils.Const.PREFS_NAME;
 import static pl.edu.pjatk.trainmate.utils.Const.PREF_ACCESS_TOKEN;
@@ -20,7 +20,6 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import pl.edu.pjatk.trainmate.keycloakIntegration.AccessToken;
 import pl.edu.pjatk.trainmate.keycloakIntegration.RetrofitClient;
@@ -34,7 +33,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText etUsername;
     private EditText etPassword;
-    private Button btnLogin;
     private TextView announcementTextView;
 
     @Override
@@ -44,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
 
         etPassword = findViewById(R.id.etPassword);
         etUsername = findViewById(R.id.etUsername);
-        btnLogin = findViewById(R.id.btnLogin);
+        Button btnLogin = findViewById(R.id.btnLogin);
         announcementTextView = findViewById(R.id.announcement);
 
         btnLogin.setOnClickListener(v -> getAccessToken());
@@ -56,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = etPassword.getText().toString();
         String username = etUsername.getText().toString();
 
-        Call<AccessToken> call = service.getAccessToken("password", username, password, CLIENT_ID);
+        Call<AccessToken> call = service.getAccessToken(GRANT_TYPE, username, password, CLIENT_ID);
         call.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<AccessToken> call, Response<AccessToken> response) {
@@ -78,13 +76,12 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     announcementTextView.setText(LOGIN_FAIL_ANNOUNCEMENT);
                     announcementTextView.setTextColor(Color.RED);
-                    Toast.makeText(LoginActivity.this, "Error:", LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<AccessToken> call, Throwable throwable) {
-                Log.w(API_TAG, API_FAIL);
+                Log.e(API_TAG, API_FAIL + throwable.getMessage());
             }
         });
     }

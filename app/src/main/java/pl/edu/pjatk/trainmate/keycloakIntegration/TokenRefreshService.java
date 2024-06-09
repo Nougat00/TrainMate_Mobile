@@ -65,7 +65,7 @@ public class TokenRefreshService extends Service {
 
             @Override
             public void onFailure(Call<AccessToken> call, Throwable throwable) {
-                Log.w(REFRESH_TAG, REFRESH_TOKEN_FAIL);
+                Log.e(REFRESH_TAG, REFRESH_TOKEN_FAIL + throwable.getMessage());
             }
         });
     }
