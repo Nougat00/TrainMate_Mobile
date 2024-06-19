@@ -31,9 +31,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -49,7 +52,7 @@ import retrofit2.Response;
 
 public class ProgressFragment extends Fragment {
 
-    private LinearLayout chartContainer;
+    LinearLayout chartContainer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,55 +86,97 @@ public class ProgressFragment extends Fragment {
         return view;
     }
 
-    private void displayProgressCharts(List<ProgressProjection> progressList) {
-
+    protected void displayProgressCharts(List<ProgressProjection> progressList) {
         for (String bodyPart : BODY_PARTS) {
-            LineChart chart = new LineChart(getContext());
-            List<Entry> entries = new ArrayList<>();
-            List<String> dates = new ArrayList<>();
-
-            for (int i = 0; i < progressList.size(); i++) {
-                ProgressProjection progress = progressList.get(i);
-                dates.add(progress.getCreatedDate());
-
-                double value = switch (bodyPart) {
-                    case BODY_PART_WEIGHT -> progress.getWeight() != null ? progress.getWeight() : 0;
-                    case BODY_PART_BODY_FAT -> progress.getBodyFat() != null ? progress.getBodyFat() : 0;
-                    case BODY_PART_LEFT_BICEPS -> progress.getLeftBiceps() != null ? progress.getLeftBiceps() : 0;
-                    case BODY_PART_RIGHT_BICEPS -> progress.getRightBiceps() != null ? progress.getRightBiceps() : 0;
-                    case BODY_PART_LEFT_FOREARM -> progress.getLeftForearm() != null ? progress.getLeftForearm() : 0;
-                    case BODY_PART_RIGHT_FOREARM -> progress.getRightForearm() != null ? progress.getRightForearm() : 0;
-                    case BODY_PART_LEFT_THIGH -> progress.getLeftThigh() != null ? progress.getLeftThigh() : 0;
-                    case BODY_PART_RIGHT_THIGH -> progress.getRightThigh() != null ? progress.getRightThigh() : 0;
-                    case BODY_PART_LEFT_CALF -> progress.getLeftCalf() != null ? progress.getLeftCalf() : 0;
-                    case BODY_PART_RIGHT_CALF -> progress.getRightCalf() != null ? progress.getRightCalf() : 0;
-                    case BODY_PART_SHOULDERS -> progress.getShoulders() != null ? progress.getShoulders() : 0;
-                    case BODY_PART_CHEST -> progress.getChest() != null ? progress.getChest() : 0;
-                    case BODY_PART_WAIST -> progress.getWaist() != null ? progress.getWaist() : 0;
-                    case BODY_PART_ABDOMEN -> progress.getAbdomen() != null ? progress.getAbdomen() : 0;
-                    case BODY_PART_HIPS -> progress.getHips() != null ? progress.getHips() : 0;
-                    default -> 0;
-                };
-
-                entries.add(new Entry(i, (float) value));
-            }
-
-            LineDataSet dataSet = new LineDataSet(entries, bodyPart);
-            dataSet.setLineWidth(3f);
-            LineData lineData = new LineData(dataSet);
-            chart.setData(lineData);
-
-            XAxis xAxis = chart.getXAxis();
-            xAxis.setValueFormatter(new IndexAxisValueFormatter(dates));
-            xAxis.setGranularity(1f);
-            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-
-            chart.invalidate();
-
+            addTitle(bodyPart);
+            LineChart chart = createChart(bodyPart, progressList);
             chartContainer.addView(chart, new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                600
+                800
             ));
+            addSeparator();
         }
+    }
+
+    protected void addTitle(String bodyPart) {
+        TextView title = new TextView(getContext());
+        title.setText(bodyPart);
+        title.setTextSize(18f);
+        title.setPadding(0, 20, 0, 10);
+        chartContainer.addView(title);
+    }
+
+    LineChart createChart(String bodyPart, List<ProgressProjection> progressList) {
+        LineChart chart = new LineChart(getContext());
+        List<Entry> entries = new ArrayList<>();
+        List<String> dates = new ArrayList<>();
+
+        for (int i = 0; i < progressList.size(); i++) {
+            ProgressProjection progress = progressList.get(i);
+            dates.add(progress.getCreatedDate());
+            double value = getValueForBodyPart(bodyPart, progress);
+            entries.add(new Entry(i, (float) value));
+        }
+
+        LineDataSet dataSet = new LineDataSet(entries, bodyPart);
+        dataSet.setLineWidth(5f);
+        dataSet.setValueTextSize(14f);
+        dataSet.setColor(getResources().getColor(R.color.secondary));
+        dataSet.setCircleColor(getResources().getColor(R.color.secondary));
+        LineData lineData = new LineData(dataSet);
+
+        chart.setDescription(new Description());
+        chart.setData(lineData);
+        configureChartAxes(chart, dates);
+        chart.invalidate();
+
+        return chart;
+    }
+
+    protected double getValueForBodyPart(String bodyPart, ProgressProjection progress) {
+        return switch (bodyPart) {
+            case BODY_PART_WEIGHT -> progress.getWeight() != null ? progress.getWeight() : 0;
+            case BODY_PART_BODY_FAT -> progress.getBodyFat() != null ? progress.getBodyFat() : 0;
+            case BODY_PART_LEFT_BICEPS -> progress.getLeftBiceps() != null ? progress.getLeftBiceps() : 0;
+            case BODY_PART_RIGHT_BICEPS -> progress.getRightBiceps() != null ? progress.getRightBiceps() : 0;
+            case BODY_PART_LEFT_FOREARM -> progress.getLeftForearm() != null ? progress.getLeftForearm() : 0;
+            case BODY_PART_RIGHT_FOREARM -> progress.getRightForearm() != null ? progress.getRightForearm() : 0;
+            case BODY_PART_LEFT_THIGH -> progress.getLeftThigh() != null ? progress.getLeftThigh() : 0;
+            case BODY_PART_RIGHT_THIGH -> progress.getRightThigh() != null ? progress.getRightThigh() : 0;
+            case BODY_PART_LEFT_CALF -> progress.getLeftCalf() != null ? progress.getLeftCalf() : 0;
+            case BODY_PART_RIGHT_CALF -> progress.getRightCalf() != null ? progress.getRightCalf() : 0;
+            case BODY_PART_SHOULDERS -> progress.getShoulders() != null ? progress.getShoulders() : 0;
+            case BODY_PART_CHEST -> progress.getChest() != null ? progress.getChest() : 0;
+            case BODY_PART_WAIST -> progress.getWaist() != null ? progress.getWaist() : 0;
+            case BODY_PART_ABDOMEN -> progress.getAbdomen() != null ? progress.getAbdomen() : 0;
+            case BODY_PART_HIPS -> progress.getHips() != null ? progress.getHips() : 0;
+            default -> 0;
+        };
+    }
+
+    private void configureChartAxes(LineChart chart, List<String> dates) {
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(dates));
+        xAxis.setGranularity(1f);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTextSize(14f);
+
+        YAxis leftAxis = chart.getAxisLeft();
+        leftAxis.setTextSize(14f);
+
+        YAxis rightAxis = chart.getAxisRight();
+        rightAxis.setTextSize(14f);
+    }
+
+    protected void addSeparator() {
+        View separator = new View(getContext());
+        LinearLayout.LayoutParams separatorParams = new LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            2
+        );
+        separatorParams.setMargins(0, 20, 0, 20);
+        separator.setLayoutParams(separatorParams);
+        separator.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+        chartContainer.addView(separator);
     }
 }

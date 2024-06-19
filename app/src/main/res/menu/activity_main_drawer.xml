@@ -11,7 +11,7 @@
           android:title="@string/menu_plan" />
         <item
           android:id="@+id/nav_progress"
-          android:icon="@drawable/ic_menu_report"
+          android:icon="@drawable/ic_menu_progress"
           android:title="@string/menu_progress" />
         <item
           android:id="@+id/nav_logout"

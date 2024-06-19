@@ -35,15 +35,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.ArrayList;
 import java.util.List;
-
+import org.apache.commons.lang3.StringUtils;
 import pl.edu.pjatk.trainmate.R;
 import pl.edu.pjatk.trainmate.api.RetrofitApiClient;
 import pl.edu.pjatk.trainmate.api.plan.ExerciseItemProjection;
