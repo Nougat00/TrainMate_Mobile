@@ -14,10 +14,10 @@ Main functionalities supports mentees in workouts by viewing their workout plans
 
 ### MVP (Minimum Viable Product):
 
-- [ ] User authentication and integration with Keycloak
-- [ ] Viewing workout plans
-- [ ] Adding reports
-- [ ] Progress preview
+- [x] User authentication and integration with Keycloak
+- [x] Viewing workout plans
+- [x] Adding reports
+- [x] Progress preview
 
 ### Non-MVP:
 
