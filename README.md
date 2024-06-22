@@ -24,4 +24,3 @@ allowing trainers to streamline their workflow and provide better support to the
 - [ ] Adding photos
 - [ ] Trainer view
 - [ ] Editing personal data
-- [ ] Progress preview
