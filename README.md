@@ -7,8 +7,8 @@
 
 ## Description:
 
-This is a fitness application designed for personal trainers to efficiently manage their clients. The app facilitates various tasks related to fitness coaching,
-allowing trainers to streamline their workflow and provide better support to their clients.
+This is a fitness application designed for personal trainers and their mentees.
+Main functionalities supports mentees in workouts by viewing their workout plans, reporting them and checking their progress.
 
 ## Tasks:
 
