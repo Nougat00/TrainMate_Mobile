@@ -156,8 +156,19 @@ public class ProgressFragment extends Fragment {
 
     private void configureChartAxes(LineChart chart, List<String> dates) {
         XAxis xAxis = chart.getXAxis();
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(dates));
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(dates) {
+            @Override
+            public String getFormattedValue(float value) {
+                int index = (int) value;
+                if (index % 2 == 0 && index < dates.size()) {
+                    return dates.get(index);
+                } else {
+                    return "";
+                }
+            }
+        });
         xAxis.setGranularity(1f);
+        xAxis.setLabelCount((dates.size() + 1) / 2, true);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextSize(14f);
 
