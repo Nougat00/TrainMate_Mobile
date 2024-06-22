@@ -31,6 +31,15 @@ public class PlanFragment extends Fragment {
     private RecyclerView recyclerView;
     private TrainingUnitAdapter trainingUnitAdapter;
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     * @return Return the View for the fragment's UI, or null.
+     */
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
         ViewGroup container, Bundle savedInstanceState) {
         var trainingClient = RetrofitApiClient.getRetrofitInstance().create(TrainingClient.class);
@@ -54,11 +63,21 @@ public class PlanFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Called when the view previously created by onCreateView has been detached from the fragment.
+     * This is a good place to clean up resources related to the view.
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
     }
 
+    /**
+     * Populates the RecyclerView with the data received from the API response.
+     *
+     * @param response The API response containing the list of training units.
+     * @param view The root view of the fragment where the RecyclerView is located.
+     */
     private void setAll(Response<List<TrainingUnitProjection>> response, View view) {
         trainingUnitAdapter = new TrainingUnitAdapter(response.body());
 

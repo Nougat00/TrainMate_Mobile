@@ -5,6 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Represents a progress projection.
+ * A ProgressProjection contains information about a user's physical measurements and progress status.
+ */
 @Getter
 @Setter
 @AllArgsConstructor

@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * Represents the parameters of a set in an exercise report.
+ * Contains information about the repetitions, weight, RIR (Reps in Reserve), and the set number.
+ */
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor

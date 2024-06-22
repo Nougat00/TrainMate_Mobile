@@ -25,13 +25,24 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Helper class to manage navigation menu operations in the application.
+ */
 public class MenuHelper extends AppCompatActivity {
 
+    /**
+     * Interface for handling menu item click events.
+     */
     public interface OnMenuItemClickListener {
-
         void onMenuItemClick(MenuItem item);
     }
 
+    /**
+     * Sets up the navigation menu with the given listener for menu item click events.
+     *
+     * @param navigationView The NavigationView containing the menu items.
+     * @param listener       The listener to handle menu item click events.
+     */
     public static void setupNavigationMenu(NavigationView navigationView, final OnMenuItemClickListener listener) {
         navigationView.setNavigationItemSelectedListener(item -> {
             if (listener != null) {
@@ -41,6 +52,14 @@ public class MenuHelper extends AppCompatActivity {
         });
     }
 
+    /**
+     * Handles menu item click events and performs corresponding actions such as
+     * navigating to different fragments or logging out.
+     *
+     * @param navigationView The NavigationView containing the menu items.
+     * @param context        The context from which this method is called.
+     * @param drawerLayout   The DrawerLayout containing the navigation menu.
+     */
     public static void handleMenuItem(NavigationView navigationView, Context context, DrawerLayout drawerLayout) {
         navigationView.setNavigationItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -58,7 +77,11 @@ public class MenuHelper extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * Logs out the user by invalidating the refresh token and navigating to the LoginActivity.
+     *
+     * @param context The context from which this method is called.
+     */
     private static void logout(Context context) {
         TokenProviderClient service = RetrofitClient.getRetrofitInstance().create(TokenProviderClient.class);
 
@@ -79,14 +102,25 @@ public class MenuHelper extends AppCompatActivity {
         });
     }
 
+    /**
+     * Sets up the navigation menu with default handling of menu item click events.
+     *
+     * @param navigationView The NavigationView containing the menu items.
+     * @param drawerLayout   The DrawerLayout containing the navigation menu.
+     */
     public static void setupNavigationMenu(NavigationView navigationView, DrawerLayout drawerLayout) {
         MenuHelper.setupNavigationMenu(navigationView, item -> MenuHelper.handleMenuItem(navigationView, navigationView.getContext(), drawerLayout));
     }
 
+    /**
+     * Opens the specified fragment by navigating to it.
+     *
+     * @param fragment       The FragmentActivity containing the navigation host.
+     * @param navFragmentId  The ID of the navigation fragment to open.
+     */
     private static void openFragment(FragmentActivity fragment, int navFragmentId) {
         NavController navController = Navigation.findNavController(fragment, R.id.nav_host_fragment_content_main);
         navController.popBackStack(navFragmentId, true);
         navController.navigate(navFragmentId);
-
     }
 }

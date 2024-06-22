@@ -55,11 +55,22 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
     private final List<ExerciseItemProjection> exerciseList;
     boolean isReportVisible = false;
 
-
+    /**
+     * Constructor for the ExerciseAdapter class.
+     *
+     * @param exerciseList List of ExerciseItemProjection objects to be displayed.
+     */
     public ExerciseAdapter(List<ExerciseItemProjection> exerciseList) {
         this.exerciseList = exerciseList;
     }
 
+    /**
+     * Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item.
+     *
+     * @param parent The ViewGroup into which the new View will be added after it is bound to an adapter position.
+     * @param viewType The view type of the new View.
+     * @return A new ExerciseViewHolder that holds a View of the given view type.
+     */
     @NonNull
     @Override
     public ExerciseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -67,6 +78,13 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         return new ExerciseViewHolder(view);
     }
 
+    /**
+     * Called by RecyclerView to display the data at the specified position.
+     * This method should update the contents of the RecyclerView.ViewHolder.itemView to reflect the item at the given position.
+     *
+     * @param holder The ViewHolder which should be updated to represent the contents of the item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
     @Override
     public void onBindViewHolder(@NonNull ExerciseViewHolder holder, int position) {
         ExerciseItemProjection exercise = exerciseList.get(position);
@@ -110,11 +128,23 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         });
     }
 
+    /**
+     * Returns the total number of items in the data set held by the adapter.
+     *
+     * @return The total number of items in this adapter.
+     */
     @Override
     public int getItemCount() {
         return exerciseList.size();
     }
 
+    /**
+     * Prepares the report data from the user input fields.
+     *
+     * @param holder The ViewHolder containing the input fields.
+     * @param exercise The exercise data being reported.
+     * @return A ReportCreateDto containing the prepared report data.
+     */
     private ReportCreateDto getPreparedReport(ExerciseViewHolder holder, ExerciseItemProjection exercise) {
         List<SetParams> setParamsList = new ArrayList<>();
         String remarks = StringUtils.EMPTY;
@@ -137,6 +167,11 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         return new ReportCreateDto(exercise.getId(), setParamsList, remarks);
     }
 
+    /**
+     * Clears all the input fields in the report layout.
+     *
+     * @param holder The ViewHolder containing the input fields.
+     */
     private void cleanAllFields(ExerciseViewHolder holder) {
         for (int i = 0; i < holder.layoutReports.getChildCount(); i++) {
             View childView = holder.layoutReports.getChildAt(i);
@@ -146,6 +181,13 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         }
     }
 
+    /**
+     * Toggles the visibility of the report layout and updates the add report button text.
+     *
+     * @param holder The ViewHolder containing the layout to be changed.
+     * @param v The view that was clicked.
+     * @param sets The number of sets for the exercise.
+     */
     private void changeLayout(ExerciseViewHolder holder, View v, int sets) {
         cleanAllFields(holder);
         if (isReportVisible) {
@@ -162,10 +204,21 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         }
     }
 
+    /**
+     * Hides the send report button after the report is successfully sent.
+     *
+     * @param holder The ViewHolder containing the send report button.
+     */
     private void deleteSendButton(ExerciseViewHolder holder) {
         holder.btnAddReport.setVisibility(View.GONE);
     }
 
+    /**
+     * Validates all the input fields in the report layout.
+     *
+     * @param holder The ViewHolder containing the input fields.
+     * @return true if all fields are valid, false otherwise.
+     */
     private boolean validAllFields(ExerciseViewHolder holder) {
         boolean isValid = true;
         for (int i = 0; i < holder.layoutReports.getChildCount(); i++) {
@@ -227,7 +280,13 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         return isValid;
     }
 
-
+    /**
+     * Creates the report input fields dynamically based on the number of sets.
+     *
+     * @param holder The ViewHolder containing the layout to be updated.
+     * @param v The view that was clicked.
+     * @param sets The number of sets for the exercise.
+     */
     private void createReportWindow(ExerciseViewHolder holder, View v, int sets) {
         cleanAllFields(holder);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -282,7 +341,9 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         holder.layoutReports.addView(remarks);
     }
 
-
+    /**
+     * ViewHolder class for holding and managing the views for each exercise item.
+     */
     public static class ExerciseViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvExerciseName, tvExerciseDetails, tvExerciseLink;
@@ -290,6 +351,11 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         Button btnSendReport;
         LinearLayout layoutReports;
 
+        /**
+         * Constructor for the ExerciseViewHolder class.
+         *
+         * @param itemView The view of the exercise item.
+         */
         public ExerciseViewHolder(@NonNull View itemView) {
             super(itemView);
             tvExerciseName = itemView.findViewById(R.id.tvExerciseName);
@@ -300,6 +366,11 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
             btnSendReport = itemView.findViewById(R.id.btnSendReport);
         }
 
+        /**
+         * Binds the exercise data to the views.
+         *
+         * @param exercise The exercise data to be displayed.
+         */
         public void bind(ExerciseItemProjection exercise) {
             tvExerciseName.setText(exercise.getName());
         }

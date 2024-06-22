@@ -20,15 +20,27 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Service for periodically refreshing the access token using a refresh token.
+ */
 public class TokenRefreshService extends Service {
 
+    /**
+     * Called when the service is started. Initializes and starts a new thread
+     * that periodically refreshes the token.
+     *
+     * @param intent The Intent supplied to startService(Intent).
+     * @param flags Additional data about the start request.
+     * @param startId A unique integer representing this specific request to start.
+     * @return The return value indicates what semantics the system should use for the service's current started state.
+     */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
         new Thread(
             new Runnable() {
                 @Override
                 public void run() {
+                    // Periodically refresh the token every 840000 milliseconds (14 minutes)
                     while (true) {
                         try {
                             Thread.sleep(840000);
@@ -43,19 +55,21 @@ public class TokenRefreshService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
+    /**
+     * Refreshes the access token using the stored refresh token.
+     */
     private void refresh() {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        var refreshToken = settings.getString(PREF_REFRESH_TOKEN, DEFAULT_STRING_VALUE);
+        String refreshToken = settings.getString(PREF_REFRESH_TOKEN, DEFAULT_STRING_VALUE);
 
         TokenProviderClient client = RetrofitClient.getRetrofitInstance().create(TokenProviderClient.class);
 
         Call<AccessToken> call = client.refreshToken(CLIENT_ID, TOKEN_REFRESH_GRANT_TYPE, refreshToken);
-        call.enqueue(new Callback<>() {
+        call.enqueue(new Callback<AccessToken>() {
             @Override
             public void onResponse(Call<AccessToken> call, Response<AccessToken> response) {
                 if (response.isSuccessful()) {
-                    SharedPreferences settings = getSharedPreferences(Const.PREFS_NAME,
-                        Context.MODE_PRIVATE);
+                    SharedPreferences settings = getSharedPreferences(Const.PREFS_NAME, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString(Const.PREF_ACCESS_TOKEN, response.body().getAccessToken());
                     editor.putString(Const.PREF_REFRESH_TOKEN, response.body().getRefreshToken());
@@ -70,6 +84,12 @@ public class TokenRefreshService extends Service {
         });
     }
 
+    /**
+     * Called when a client binds to the service with bindService(Intent).
+     *
+     * @param intent The Intent that was used to bind to this service.
+     * @return An IBinder through which clients can call on to the service.
+     */
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {

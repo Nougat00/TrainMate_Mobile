@@ -6,8 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Data transfer object for creating a report.
+ * Contains information about the exercise item, the sets performed, and any additional remarks.
+ */
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReportCreateDto {

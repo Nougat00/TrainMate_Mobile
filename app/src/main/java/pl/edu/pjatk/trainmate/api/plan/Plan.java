@@ -6,6 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * Represents a training plan.
+ * A Plan contains an id, name, category, and a list of training units.
+ */
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,6 +20,11 @@ public class Plan {
     String category;
     List<TrainingUnitProjection> trainingUnits = new ArrayList<>();
 
+    /**
+     * Returns a string representation of the Plan.
+     *
+     * @return A string that represents the Plan.
+     */
     @Override
     public String toString() {
         return "Plan{" +

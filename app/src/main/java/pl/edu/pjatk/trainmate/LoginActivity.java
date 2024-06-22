@@ -29,12 +29,22 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Activity responsible for user login functionality.
+ */
 public class LoginActivity extends AppCompatActivity {
 
     private EditText etUsername;
     private EditText etPassword;
     private TextView announcementTextView;
 
+    /**
+     * Called when the activity is starting. Initializes the activity.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after
+     * previously being shut down then this Bundle contains the data it most
+     * recently supplied in onSaveInstanceState(Bundle).
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +58,11 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(v -> getAccessToken());
     }
 
+    /**
+     * Requests an access token using the provided username and password.
+     * On success, saves the tokens and starts the main activity.
+     * On failure, displays an error message.
+     */
     public void getAccessToken() {
         TokenProviderClient service = RetrofitClient.getRetrofitInstance().create(TokenProviderClient.class);
 

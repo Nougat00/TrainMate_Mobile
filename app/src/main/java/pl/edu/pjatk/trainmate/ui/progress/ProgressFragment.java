@@ -50,19 +50,32 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Fragment to display progress charts for various body measurements.
+ */
 public class ProgressFragment extends Fragment {
 
-    LinearLayout chartContainer;
+    private LinearLayout chartContainer;
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     * @return The View for the fragment's UI, or null.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_progress, container, false);
         chartContainer = view.findViewById(R.id.chartContainer);
 
+        // Retrieve access token from SharedPreferences
         ProgressClient progressClient = getRetrofitInstance().create(ProgressClient.class);
-        var token = view.getContext().getSharedPreferences(PREFS_NAME, MODE_PRIVATE).getString(PREF_ACCESS_TOKEN, DEFAULT_STRING_VALUE);
+        String token = view.getContext().getSharedPreferences(PREFS_NAME, MODE_PRIVATE).getString(PREF_ACCESS_TOKEN, DEFAULT_STRING_VALUE);
 
+        // Make an asynchronous request to get all progress reports
         Call<List<ProgressProjection>> call = progressClient.getAllProgressReports(TOKEN_TYPE + token);
         call.enqueue(new Callback<List<ProgressProjection>>() {
             @Override
@@ -86,6 +99,11 @@ public class ProgressFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Displays progress charts for each body part.
+     *
+     * @param progressList List of progress projections containing measurement data.
+     */
     protected void displayProgressCharts(List<ProgressProjection> progressList) {
         for (String bodyPart : BODY_PARTS) {
             addTitle(bodyPart);
@@ -98,6 +116,11 @@ public class ProgressFragment extends Fragment {
         }
     }
 
+    /**
+     * Adds a title for each body part above the corresponding chart.
+     *
+     * @param bodyPart The name of the body part.
+     */
     protected void addTitle(String bodyPart) {
         TextView title = new TextView(getContext());
         title.setText(bodyPart);
@@ -106,11 +129,19 @@ public class ProgressFragment extends Fragment {
         chartContainer.addView(title);
     }
 
+    /**
+     * Creates a line chart for a specific body part using the progress data.
+     *
+     * @param bodyPart The name of the body part.
+     * @param progressList List of progress projections containing measurement data.
+     * @return A configured LineChart object.
+     */
     LineChart createChart(String bodyPart, List<ProgressProjection> progressList) {
         LineChart chart = new LineChart(getContext());
         List<Entry> entries = new ArrayList<>();
         List<String> dates = new ArrayList<>();
 
+        // Populate entries and dates from progress data
         for (int i = 0; i < progressList.size(); i++) {
             ProgressProjection progress = progressList.get(i);
             dates.add(progress.getCreatedDate());
@@ -118,6 +149,7 @@ public class ProgressFragment extends Fragment {
             entries.add(new Entry(i, (float) value));
         }
 
+        // Configure the data set and chart appearance
         LineDataSet dataSet = new LineDataSet(entries, bodyPart);
         dataSet.setLineWidth(5f);
         dataSet.setValueTextSize(14f);
@@ -133,6 +165,13 @@ public class ProgressFragment extends Fragment {
         return chart;
     }
 
+    /**
+     * Retrieves the value for a specific body part from a progress projection.
+     *
+     * @param bodyPart The name of the body part.
+     * @param progress The progress projection containing the measurement data.
+     * @return The value of the measurement for the specified body part.
+     */
     protected double getValueForBodyPart(String bodyPart, ProgressProjection progress) {
         return switch (bodyPart) {
             case BODY_PART_WEIGHT -> progress.getWeight() != null ? progress.getWeight() : 0;
@@ -154,6 +193,12 @@ public class ProgressFragment extends Fragment {
         };
     }
 
+    /**
+     * Configures the X and Y axes for the chart.
+     *
+     * @param chart The LineChart object to configure.
+     * @param dates List of dates for the X-axis labels.
+     */
     private void configureChartAxes(LineChart chart, List<String> dates) {
         XAxis xAxis = chart.getXAxis();
         xAxis.setValueFormatter(new IndexAxisValueFormatter(dates) {
@@ -179,6 +224,9 @@ public class ProgressFragment extends Fragment {
         rightAxis.setTextSize(14f);
     }
 
+    /**
+     * Adds a separator line between charts.
+     */
     protected void addSeparator() {
         View separator = new View(getContext());
         LinearLayout.LayoutParams separatorParams = new LinearLayout.LayoutParams(

@@ -1,6 +1,13 @@
 package pl.edu.pjatk.trainmate.utils;
 
+/**
+ * A utility class that holds constant values used throughout the application.
+ * These constants include preference keys, API endpoints, error messages, and
+ * other string literals used in the application.
+ */
 public class Const {
+
+    // Preference keys
 
     public static final String REFRESH_ACTIVE = "refreshActive";
     public static final String PREFS_NAME = "preferences";

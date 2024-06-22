@@ -5,24 +5,32 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Projection class representing an exercise item.
+ */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExerciseItemProjection {
 
-    Long id;
-    Integer repetitions;
-    String tempo;
-    Integer weight;
-    Integer rir;
-    Integer sets;
-    Muscle muscleInvolved;
-    String name;
-    String description;
-    String url;
-    boolean reported;
+    private Long id;
+    private Integer repetitions;
+    private String tempo;
+    private Integer weight;
+    private Integer rir;
+    private Integer sets;
+    private Muscle muscleInvolved;
+    private String name;
+    private String description;
+    private String url;
+    private boolean reported;
 
+    /**
+     * Returns a string representation of the ExerciseItemProjection.
+     *
+     * @return A string containing the exercise item details.
+     */
     @Override
     public String toString() {
         return "ExerciseItemProjection{" +
